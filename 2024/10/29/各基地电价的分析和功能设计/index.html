@@ -20,23 +20,31 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mzr312312.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="卓然的Blog">
-<meta property="og:url" content="http://mzr312312.github.io/index.html">
+    <meta name="description" content="自定义 [Read More] 按钮之前要显示的内容    1.问题背景：EMS系统，在基地驾驶舱要显示能耗、成本、能效三个指标，其中，成本&#x3D;电耗×电价，能效&#x3D;成本&#x2F;产量；在计算成本时，发现电的定价比想象复杂。 2.如何确认电单价2.1 市场交易和代理购电市场交易：存在一个持续建设中的电力市场，在这个市场中，用户可自行选择发电企业或通过售电公司购买电力，价格通过自行协">
+<meta property="og:type" content="article">
+<meta property="og:title" content="各基地电价的分析和功能设计">
+<meta property="og:url" content="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="卓然的Blog">
+<meta property="og:description" content="自定义 [Read More] 按钮之前要显示的内容    1.问题背景：EMS系统，在基地驾驶舱要显示能耗、成本、能效三个指标，其中，成本&#x3D;电耗×电价，能效&#x3D;成本&#x2F;产量；在计算成本时，发现电的定价比想象复杂。 2.如何确认电单价2.1 市场交易和代理购电市场交易：存在一个持续建设中的电力市场，在这个市场中，用户可自行选择发电企业或通过售电公司购买电力，价格通过自行协">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/image-20241029131856165.png">
+<meta property="og:image" content="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/8b228b6be279436eb99343821ff38b14.png">
+<meta property="og:image" content="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/image-20241029133920906.png">
+<meta property="article:published_time" content="2024-10-29T03:13:20.000Z">
+<meta property="article:modified_time" content="2024-10-29T06:04:57.204Z">
 <meta property="article:author" content="马卓然">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/image-20241029131856165.png">
 
 
-<link rel="canonical" href="http://mzr312312.github.io/">
+<link rel="canonical" href="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/","path":"2024/10/29/各基地电价的分析和功能设计/","title":"各基地电价的分析和功能设计"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>卓然的Blog</title>
+<title>各基地电价的分析和功能设计 | 卓然的Blog</title>
   
 
 
@@ -69,7 +77,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">卓然的Blog</h1>
+      <p class="site-title">卓然的Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">多少事，从来急，天地转，光阴迫。一万年太久，只争朝夕！</p>
@@ -96,7 +104,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -109,6 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">1.问题背景：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">2.如何确认电单价</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">2.1 市场交易和代理购电</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">2.2 代理购电</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.2.1 如何确定代理购电的价格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.2.2 单一制与两部制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.2.2 电压等级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.2.3 分时电度电价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.2.4 适用1.5倍电价的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.2.5 历史偏差电价的修正</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">3.系统功能设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">3.1 协同机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">3.2 风险</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">3.3风险应对措施（功能设计）</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -158,16 +167,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -181,13 +191,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 卓然的Blog">
+      <meta itemprop="name" content="各基地电价的分析和功能设计 | 卓然的Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/29/%E5%90%84%E5%9F%BA%E5%9C%B0%E7%94%B5%E4%BB%B7%E7%9A%84%E5%88%86%E6%9E%90%E5%92%8C%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">各基地电价的分析和功能设计</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          各基地电价的分析和功能设计
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -234,8 +244,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <span id="more"></span>自定义 [Read More] 按钮之前要显示的内容
+    <div class="post-body" itemprop="articleBody"><span id="more"></span>自定义 [Read More] 按钮之前要显示的内容
 
 
 
@@ -288,7 +297,6 @@
 </li>
 </ol>
 
-      
     </div>
 
     
@@ -296,314 +304,22 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/10/15/%E5%85%B3%E4%BA%8Evlookup%E5%87%BD%E6%95%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
-      <meta itemprop="name" content="马卓然">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卓然的Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 卓然的Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/15/%E5%85%B3%E4%BA%8Evlookup%E5%87%BD%E6%95%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">关于vlookup函数的奇怪问题汇总和解决方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-10-15 14:45:19 / 修改时间：15:15:39" itemprop="dateCreated datePublished" datetime="2024-10-15T14:45:19+08:00">2024-10-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/data/" itemprop="url" rel="index"><span itemprop="name">data</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>416</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在使用vlookup匹配数据时遇到过的一些奇怪问题，再次记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/10/15/%E5%85%B3%E4%BA%8Evlookup%E5%87%BD%E6%95%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
-      <meta itemprop="name" content="马卓然">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卓然的Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 卓然的Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">IoT数采过程中设备离线的标记问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-10-14 15:38:53 / 修改时间：16:14:19" itemprop="dateCreated datePublished" datetime="2024-10-14T15:38:53+08:00">2024-10-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/ems/" itemprop="url" rel="index"><span itemprop="name">ems</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>450</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>希望在EMS系统中呈现设备/仪表的在线、离线状态，但技术可行性不高，原因及对策。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/">
-                阅读全文 &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/10/15/%E5%85%B3%E4%BA%8Evlookup%E5%87%BD%E6%95%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="prev" title="关于vlookup函数的奇怪问题汇总和解决方法">
+                  <i class="fa fa-angle-left"></i> 关于vlookup函数的奇怪问题汇总和解决方法
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
-      <meta itemprop="name" content="马卓然">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卓然的Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 卓然的Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">石家庄电表的梳理流程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-10-12 14:06:33 / 修改时间：20:46:20" itemprop="dateCreated datePublished" datetime="2024-10-12T14:06:33+08:00">2024-10-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/data/" itemprop="url" rel="index"><span itemprop="name">data</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>各基地电表数量很多，点表命名杂乱无章，电表的梳理比常规的梳理过程增加了一些步骤。梳理的目标是：形成数据点清单，根据设备命名规则和数据点命名规则，为原始数据点表中的每一个采集点名称，匹配一个数据点编码，用于后续的IoT采集和数据库存储、用户查询</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/">
-                阅读全文 &raquo;
-              </a>
+            <div class="post-nav-item">
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          </div>
     </footer>
   </article>
 </div>
+
 
 
 
