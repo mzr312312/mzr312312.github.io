@@ -20,28 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mzr312312.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="ID: SOP-5编写日期: 2024年9月26日 参考（什么是莱文斯坦距离）：莱文斯坦距离（Levenshtein Distance）的应用  使用python的fuzzywuzzy库，对原始点表中的”特征字段“进行基于莱文斯坦距离的映射，将”特征字段“映射为”字典中的“标准参数名称”，然后可以vlookup出对应的编码； 应用场景如下，即逐一制定数据点后缀：  接下来需要逐行确定该采集点特征字">
-<meta property="og:type" content="website">
-<meta property="og:title" content="数据字典的制作">
-<meta property="og:url" content="http://mzr312312.github.io/%E5%A4%87%E4%BB%BD/%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B8%E7%9A%84%E5%88%B6%E4%BD%9C.html">
+    <meta name="description" content="基地给的各种特气消耗量    特气名称 特气装载量 耗尽天数(d) 日消耗量(KG) 小时消耗量(KG) 分钟消耗量(KG)    1 硅烷SiH4 4000 KG 5 800.00 33.33 0.56   2 氨气NH3 11000 KG 7 1571.43 65.48 1.09   3 笑气N2O 8600 KG 10 860.00 35.83 0.60   4 磷烷PH3 m3 5000">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卓然的Blog">
+<meta property="og:url" content="http://mzr312312.github.io/2024/12/02/%E7%89%B9%E6%B0%94%E7%9A%84%E8%AE%A1%E9%87%8F%E6%96%B9%E5%BC%8F/%E5%9F%BA%E5%9C%B0%E7%BB%99%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%B9%E6%B0%94%E6%B6%88%E8%80%97%E9%87%8F/index.html">
 <meta property="og:site_name" content="卓然的Blog">
-<meta property="og:description" content="ID: SOP-5编写日期: 2024年9月26日 参考（什么是莱文斯坦距离）：莱文斯坦距离（Levenshtein Distance）的应用  使用python的fuzzywuzzy库，对原始点表中的”特征字段“进行基于莱文斯坦距离的映射，将”特征字段“映射为”字典中的“标准参数名称”，然后可以vlookup出对应的编码； 应用场景如下，即逐一制定数据点后缀：  接下来需要逐行确定该采集点特征字">
+<meta property="og:description" content="基地给的各种特气消耗量    特气名称 特气装载量 耗尽天数(d) 日消耗量(KG) 小时消耗量(KG) 分钟消耗量(KG)    1 硅烷SiH4 4000 KG 5 800.00 33.33 0.56   2 氨气NH3 11000 KG 7 1571.43 65.48 1.09   3 笑气N2O 8600 KG 10 860.00 35.83 0.60   4 磷烷PH3 m3 5000">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-11T09:58:54.000Z">
-<meta property="article:modified_time" content="2024-10-11T10:10:15.662Z">
+<meta property="article:published_time" content="2024-12-02T01:16:28.989Z">
+<meta property="article:modified_time" content="2024-12-01T17:16:08.000Z">
 <meta property="article:author" content="马卓然">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://mzr312312.github.io/%E5%A4%87%E4%BB%BD/%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B8%E7%9A%84%E5%88%B6%E4%BD%9C">
+<link rel="canonical" href="http://mzr312312.github.io/2024/12/02/%E7%89%B9%E6%B0%94%E7%9A%84%E8%AE%A1%E9%87%8F%E6%96%B9%E5%BC%8F/%E5%9F%BA%E5%9C%B0%E7%BB%99%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%B9%E6%B0%94%E6%B6%88%E8%80%97%E9%87%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"http://mzr312312.github.io/%E5%A4%87%E4%BB%BD/%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B8%E7%9A%84%E5%88%B6%E4%BD%9C.html","path":"备份/数据字典的制作.html","title":"数据字典的制作"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://mzr312312.github.io/2024/12/02/%E7%89%B9%E6%B0%94%E7%9A%84%E8%AE%A1%E9%87%8F%E6%96%B9%E5%BC%8F/%E5%9F%BA%E5%9C%B0%E7%BB%99%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%B9%E6%B0%94%E6%B6%88%E8%80%97%E9%87%8F/","path":"2024/12/02/特气的计量方式/基地给的各种特气消耗量/","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>数据字典的制作 | 卓然的Blog
-</title>
+<title> | 卓然的Blog</title>
   
 
 
@@ -101,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -114,6 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">基地给的各种特气消耗量</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -163,47 +163,151 @@
 
     </div>
 
-    <div class="main-inner page posts-expand">
+    <div class="main-inner post posts-expand">
 
 
-    
-    
-    
-    <div class="post-block" lang="zh-CN"><header class="post-header">
+  
 
-<h1 class="post-title" itemprop="name headline">数据字典的制作
-</h1>
 
-<div class="post-meta-container">
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/12/02/%E7%89%B9%E6%B0%94%E7%9A%84%E8%AE%A1%E9%87%8F%E6%96%B9%E5%BC%8F/%E5%9F%BA%E5%9C%B0%E7%BB%99%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%B9%E6%B0%94%E6%B6%88%E8%80%97%E9%87%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
+      <meta itemprop="name" content="马卓然">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卓然的Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 卓然的Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-02 09:16:28 / 修改时间：01:16:08" itemprop="dateCreated datePublished" datetime="2024-12-02T09:16:28+08:00">2024-12-02</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>130</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
 </div>
 
-</header>
+        </div>
+      </header>
 
-      
-      
-      
-      <div class="post-body">
-          <p>ID: SOP-5<br>编写日期: 2024年9月26日</p>
-<p>参考（什么是莱文斯坦距离）：<a target="_blank" rel="noopener" href="https://www.notion.so/Levenshtein-Distance-10d9c3f2ddee80d69973fc02b15fdf2e?pvs=21">莱文斯坦距离（<strong>Levenshtein Distance）的应用</strong></a> </p>
-<p>使用python的<code>fuzzywuzzy</code>库，对原始点表中的”特征字段“进行基于莱文斯坦距离的映射，将”特征字段“映射为”字典中的“标准参数名称”，然后可以vlookup出对应的编码；</p>
-<p>应用场景如下，即逐一制定数据点后缀：</p>
-<ul>
-<li>接下来需要<strong>逐行</strong>确定该<code>采集点特征字段</code>对应的数据点后缀（大工程，考虑）：<ol>
-<li>使用”E:\工作\2.方案设计\0 模板文件夹\数据点编码的模板.xlsx“来进行梳理；</li>
-<li>梳理后粘贴进<strong>数据点清单</strong>sheet页中；</li>
-</ol>
-</li>
-</ul>
-<p>与AI的沟通如下图：</p>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1><span id="基地给的各种特气消耗量">基地给的各种特气消耗量</span></h1><table>
+<thead>
+<tr>
+<th></th>
+<th><strong>特气名称</strong></th>
+<th><strong>特气装载量</strong></th>
+<th><strong>耗尽天数(d)</strong></th>
+<th><strong>日消耗量(KG)</strong></th>
+<th><strong>小时消耗量(KG)</strong></th>
+<th><strong>分钟消耗量(KG)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>硅烷SiH4</td>
+<td>4000 KG</td>
+<td>5</td>
+<td>800.00</td>
+<td>33.33</td>
+<td>0.56</td>
+</tr>
+<tr>
+<td>2</td>
+<td>氨气NH3</td>
+<td>11000 KG</td>
+<td>7</td>
+<td>1571.43</td>
+<td>65.48</td>
+<td>1.09</td>
+</tr>
+<tr>
+<td>3</td>
+<td>笑气N2O</td>
+<td>8600 KG</td>
+<td>10</td>
+<td>860.00</td>
+<td>35.83</td>
+<td>0.60</td>
+</tr>
+<tr>
+<td>4</td>
+<td>磷烷PH3 m3</td>
+<td>5000 m3</td>
+<td>3</td>
+<td>1666.67 m3</td>
+<td>69.44 m3</td>
+<td>1.16 m3</td>
+</tr>
+</tbody></table>
+<p>上表中的分钟消耗量可以作为<code>前一日平均差值</code>的参考值（消耗量随生产情况发生变化，但大体上相差不多）；</p>
 
-      </div>
-      
-      
-      
     </div>
 
     
     
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/02/%E7%89%B9%E6%B0%94%E7%9A%84%E8%AE%A1%E9%87%8F%E6%96%B9%E5%BC%8F/" rel="prev" title="">
+                  <i class="fa fa-angle-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
 
 
 </div>
