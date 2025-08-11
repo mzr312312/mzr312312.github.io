@@ -254,14 +254,14 @@
     
     <div class="post-body" itemprop="articleBody"><h1><span id="1提前准备的资料">1.提前准备的资料</span></h1><h2><span id="11-iot给的数据点表低压">1.1 IoT给的数据点表（低压）</span></h2><ol>
 <li>这个是从供应商（柯林）的上位机系统导出的，我需要的内容大概如下图：<ol>
-<li><style>.jpkjmkgfalfh{zoom:67%;}</style><img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012141543095.png" class="jpkjmkgfalfh" alt="image-20241012141543095"></li>
+<li><style>.etlyxuvvkcpy{zoom:67%;}</style><img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012141543095.png" class="etlyxuvvkcpy" alt="image-20241012141543095"></li>
 <li>采集点名称：我最终生成的数据点清单，要把<code>数据点编码</code>和上图的<code>采集点名称</code>一一对应；</li>
 </ol>
 </li>
 </ol>
 <h2><span id="12-我的设备编码清单低压">1.2 我的设备编码清单（低压）：</span></h2><ol>
 <li>来源：和石家庄基地多轮沟通后，列出了所有电表大约3000块。根据基地→车间→系统耗电量的统计，列出了低压系统的1348块表（包含缴费&#x2F;总进线电表-1级、变压器表-2级、配电柜主电表-3级和抽屉柜电表-4级等）；</li>
-<li>电表层级梳理如图所示：<style>.othusqphjgdc{}</style><img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E5%B1%82%E7%BA%A7%E5%9B%BE.png" class="othusqphjgdc" alt="石家庄电表层级图"></li>
+<li>电表层级梳理如图所示：<style>.lbwjlkdpjncs{}</style><img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E5%B1%82%E7%BA%A7%E5%9B%BE.png" class="lbwjlkdpjncs" alt="石家庄电表层级图"></li>
 <li>1348这个数量应该是少于IoT数据点表里的设备数量的，需要梳理到底少了哪些。当前看来，应该是漏了一些类似上图中11304，11305这种不带有功电度的电表（但是有电流，电压等数据，还是要采集的），另外就是漏了一些母线插接箱的电表，基地没有梳理好，暂时也不需要采集；</li>
 </ol>
 <h3><span id="13-石家庄基地电表梳理清单在设备编码清单的sheet页中">1.3 石家庄基地电表梳理清单（在设备编码清单的sheet页中）：</span></h3><ol>
