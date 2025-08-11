@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/%E8%8B%B9%E6%9E%9C%E5%A4%A7%E5%9B%BE-4.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/%E4%B8%AD%E5%9B%BE32-32-4.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/%E5%B0%8F%E5%9B%BE16-16-4.png">
+  <link rel="mask-icon" href="/images/safari-logo-4.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mzr312312.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在对供应商提供的，几万行的点表进行处理（处理过程见：石家庄电表的梳理流程 | 卓然的Blog）过程中，经常需要“按某一列的内容，对连续相同的所有行进行交替涂色”，例如把20000行数据点分为35种设备类型，整个文件中就会交替出现35个“色块”，目的是便于观看，防止串行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="点表数据清洗:数据表按某列内容交替涂色">
+<meta property="og:url" content="http://mzr312312.github.io/2024/11/05/%E7%82%B9%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97-%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%8C%89%E6%9F%90%E5%88%97%E5%86%85%E5%AE%B9%E4%BA%A4%E6%9B%BF%E6%B6%82%E8%89%B2/index.html">
+<meta property="og:site_name" content="卓然的Blog">
+<meta property="og:description" content="在对供应商提供的，几万行的点表进行处理（处理过程见：石家庄电表的梳理流程 | 卓然的Blog）过程中，经常需要“按某一列的内容，对连续相同的所有行进行交替涂色”，例如把20000行数据点分为35种设备类型，整个文件中就会交替出现35个“色块”，目的是便于观看，防止串行。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-05T06:18:43.000Z">
+<meta property="article:modified_time" content="2025-08-08T02:23:33.967Z">
+<meta property="article:author" content="马卓然">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://mzr312312.github.io/2024/11/05/%E7%82%B9%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97-%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%8C%89%E6%9F%90%E5%88%97%E5%86%85%E5%AE%B9%E4%BA%A4%E6%9B%BF%E6%B6%82%E8%89%B2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://mzr312312.github.io/2024/11/05/%E7%82%B9%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97-%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%8C%89%E6%9F%90%E5%88%97%E5%86%85%E5%AE%B9%E4%BA%A4%E6%9B%BF%E6%B6%82%E8%89%B2/","path":"2024/11/05/点表数据清洗-数据表按某列内容交替涂色/","title":"点表数据清洗:数据表按某列内容交替涂色"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>点表数据清洗:数据表按某列内容交替涂色 | 卓然的Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">卓然的Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">多少事，从来急，天地转，光阴迫。一万年太久，只争朝夕！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-业务文档"><a href="/categories/ems/" rel="section"><i class="fa fa-cog fa-fw"></i>业务文档</a></li><li class="menu-item menu-item-数据处理"><a href="/categories/data/" rel="section"><i class="fa fa-magnifying-glass-chart fa-fw"></i>数据处理</a></li><li class="menu-item menu-item-读书笔记"><a href="/categories/book/" rel="section"><i class="fa fa-book fa-fw"></i>读书笔记</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="马卓然"
+      src="/images/%E5%A4%B4%E5%83%8F1.png">
+  <p class="site-author-name" itemprop="name">马卓然</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mzr312312" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mzr312312" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:732545535@qq.com" title="E-Mail → mailto:732545535@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/11/05/%E7%82%B9%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97-%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%8C%89%E6%9F%90%E5%88%97%E5%86%85%E5%AE%B9%E4%BA%A4%E6%9B%BF%E6%B6%82%E8%89%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
+      <meta itemprop="name" content="马卓然">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卓然的Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="点表数据清洗:数据表按某列内容交替涂色 | 卓然的Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          点表数据清洗:数据表按某列内容交替涂色
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-05 14:18:43" itemprop="dateCreated datePublished" datetime="2024-11-05T14:18:43+08:00">2024-11-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-08-08 10:23:33" itemprop="dateModified" datetime="2025-08-08T10:23:33+08:00">2025-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/data/" itemprop="url" rel="index"><span itemprop="name">data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>535</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在对供应商提供的，几万行的点表进行处理（处理过程见：<a href="https://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/">石家庄电表的梳理流程 | 卓然的Blog</a>）过程中，经常需要“按某一列的内容，对连续相同的所有行进行交替涂色”，例如把20000行数据点分为35种设备类型，整个文件中就会交替出现35个“色块”，目的是便于观看，防止串行。<span id="more"></span></p>
+<p>使用以下脚本完成此功能：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line"><span class="keyword">from</span> openpyxl.utils.dataframe <span class="keyword">import</span> dataframe_to_rows</span><br><span class="line"><span class="keyword">from</span> openpyxl.styles <span class="keyword">import</span> PatternFill</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="comment"># 没有选择sheet页的功能，最好新建一个excel文档，把需要涂色的sheet页拷贝过去</span></span><br><span class="line"><span class="comment"># 可配置变量</span></span><br><span class="line"><span class="comment"># Excel文件路径--现有未涂色的文件</span></span><br><span class="line">file_path = <span class="string">r&#x27;file-path&#x27;</span></span><br><span class="line"><span class="comment"># 新生成的Excel文件路径--新生成的文件</span></span><br><span class="line">timestamp = datetime.now().strftime(<span class="string">&quot;%Y%m%d_%H%M%S&quot;</span>)  <span class="comment"># 生成时间戳，格式为：年月日_时分秒</span></span><br><span class="line">new_file_path = <span class="string">fr&#x27;new-file-path_<span class="subst">&#123;timestamp&#125;</span>.xlsx&#x27;</span></span><br><span class="line"><span class="comment"># 设置颜色--用Quicker取色</span></span><br><span class="line">start_color = <span class="string">&#x27;FFEBF1DE&#x27;</span>  <span class="comment"># 绿色</span></span><br><span class="line">end_color = <span class="string">&#x27;FFEBF1DE&#x27;</span>  <span class="comment"># 绿色</span></span><br><span class="line"><span class="comment"># 涂色依据的列名称--希望依据哪一列的内容涂色，只需要把列的名称改成和Excel文件相同即可</span></span><br><span class="line">color_by_column = <span class="string">&#x27;设备/仪表原有编号&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取Excel文件</span></span><br><span class="line">df = pd.read_excel(file_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建新的工作簿</span></span><br><span class="line">wb = Workbook()</span><br><span class="line">ws = wb.active</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义涂色的填充样式</span></span><br><span class="line">gray_fill = PatternFill(start_color=start_color, end_color=end_color, fill_type=<span class="string">&#x27;solid&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定需要涂色的系统名称</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">should_color</span>(<span class="params">system_name, prev_system_name, prev_should_color</span>):</span><br><span class="line">    <span class="comment"># 当前系统名称与前一个不同，根据奇偶性决定是否涂色</span></span><br><span class="line">    <span class="keyword">if</span> system_name != prev_system_name:</span><br><span class="line">        <span class="comment"># 如果是第一次遇到系统名称，则默认涂色</span></span><br><span class="line">        <span class="keyword">if</span> prev_system_name <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="comment"># 从第二个系统开始，涂色与前一个系统相反</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">not</span> prev_should_color</span><br><span class="line">    <span class="comment"># 如果系统名称相同，则使用前一个系统的涂色状态</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> prev_should_color</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将DataFrame写入新的工作表，并根据规则涂色</span></span><br><span class="line">prev_system_name = <span class="literal">None</span></span><br><span class="line">prev_should_color = <span class="literal">None</span></span><br><span class="line"><span class="keyword">for</span> r_idx, row <span class="keyword">in</span> <span class="built_in">enumerate</span>(dataframe_to_rows(df, index=<span class="literal">False</span>, header=<span class="literal">True</span>)):</span><br><span class="line">    <span class="keyword">for</span> c_idx, value <span class="keyword">in</span> <span class="built_in">enumerate</span>(row, <span class="number">1</span>):</span><br><span class="line">        cell = ws.cell(row=r_idx + <span class="number">1</span>, column=c_idx, value=value)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 确定是否需要涂色</span></span><br><span class="line">        <span class="keyword">if</span> r_idx &gt; <span class="number">0</span>:  <span class="comment"># 跳过标题行</span></span><br><span class="line">            system_name = df.loc[r_idx - <span class="number">1</span>, color_by_column]</span><br><span class="line">            cell_should_color = should_color(system_name, prev_system_name, prev_should_color)</span><br><span class="line">            prev_system_name = system_name</span><br><span class="line">            prev_should_color = cell_should_color</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> cell_should_color:</span><br><span class="line">                cell.fill = gray_fill</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存新的文件</span></span><br><span class="line">wb.save(new_file_path)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/11/04/%E9%80%9A%E8%BF%87kafka%E4%BC%A0%E9%80%92%E6%9D%A5%E7%9A%84%E8%AE%A2%E9%98%85%E6%95%B0%E6%8D%AE%EF%BC%88%E5%B0%8F%E6%97%B6%E8%80%97%E7%94%B5%E9%87%8F%EF%BC%89%E6%98%AF%E8%B4%9F%E5%80%BC%E7%9A%84%E6%83%85%E5%86%B5/" rel="prev" title="通过kafka传递来的订阅数据（小时耗电量）是负值的情况">
+                  <i class="fa fa-angle-left"></i> 通过kafka传递来的订阅数据（小时耗电量）是负值的情况
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/02/%E5%8C%96%E5%AD%A6%E5%93%81%E7%9A%84%E8%AE%A1%E9%87%8F%E6%96%B9%E5%BC%8F/" rel="next" title="化学品的计量方式">
+                  化学品的计量方式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马卓然@JA_Solar</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">9k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">33 分钟</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

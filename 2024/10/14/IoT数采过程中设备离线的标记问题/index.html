@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/%E8%8B%B9%E6%9E%9C%E5%A4%A7%E5%9B%BE-4.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/%E4%B8%AD%E5%9B%BE32-32-4.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/%E5%B0%8F%E5%9B%BE16-16-4.png">
+  <link rel="mask-icon" href="/images/safari-logo-4.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mzr312312.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="希望在EMS系统中呈现设备&#x2F;仪表的在线、离线状态，但技术可行性不高，原因及对策。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IoT数采过程中设备离线的标记问题">
+<meta property="og:url" content="http://mzr312312.github.io/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="卓然的Blog">
+<meta property="og:description" content="希望在EMS系统中呈现设备&#x2F;仪表的在线、离线状态，但技术可行性不高，原因及对策。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-14T07:38:53.000Z">
+<meta property="article:modified_time" content="2025-08-08T02:23:33.950Z">
+<meta property="article:author" content="马卓然">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://mzr312312.github.io/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://mzr312312.github.io/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/","path":"2024/10/14/IoT数采过程中设备离线的标记问题/","title":"IoT数采过程中设备离线的标记问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>IoT数采过程中设备离线的标记问题 | 卓然的Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">卓然的Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">多少事，从来急，天地转，光阴迫。一万年太久，只争朝夕！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-业务文档"><a href="/categories/ems/" rel="section"><i class="fa fa-cog fa-fw"></i>业务文档</a></li><li class="menu-item menu-item-数据处理"><a href="/categories/data/" rel="section"><i class="fa fa-magnifying-glass-chart fa-fw"></i>数据处理</a></li><li class="menu-item menu-item-读书笔记"><a href="/categories/book/" rel="section"><i class="fa fa-book fa-fw"></i>读书笔记</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="马卓然"
+      src="/images/%E5%A4%B4%E5%83%8F1.png">
+  <p class="site-author-name" itemprop="name">马卓然</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mzr312312" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mzr312312" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:732545535@qq.com" title="E-Mail → mailto:732545535@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
+      <meta itemprop="name" content="马卓然">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卓然的Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="IoT数采过程中设备离线的标记问题 | 卓然的Blog">
+      <meta itemprop="description" content="希望在EMS系统中呈现设备/仪表的在线、离线状态，但技术可行性不高，原因及对策。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IoT数采过程中设备离线的标记问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-14 15:38:53" itemprop="dateCreated datePublished" datetime="2024-10-14T15:38:53+08:00">2024-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-08-08 10:23:33" itemprop="dateModified" datetime="2025-08-08T10:23:33+08:00">2025-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ems/" itemprop="url" rel="index"><span itemprop="name">ems</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>450</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">希望在EMS系统中呈现设备/仪表的在线、离线状态，但技术可行性不高，原因及对策。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>当前各个厂务子系统的DCS系统上位机中，都可以呈现类似“在线设备数”、“离线设备数”的功能，这一功能是由PLC上位机和下位机之间的数据点传递得到的（每一台设备拥有一个表示在线&#x2F;离线的数布尔值据点）;</p>
+<p>但IoT采集的方式多种多样，大约只有不到5%的数据是从PLC下位机采集而来的，更多的是从现场通讯管理机上采集到的二手&#x2F;三手数据，这些数据不包含前面提到的在线&#x2F;离线状态数据点，因此，EMS系统得到的IoT数据只分为：“有数据”和”0“两种，IoT希望用0来代表离线，这在工艺上是不能接受的；</p>
+<p><strong>短期目标（截至2025年中旬）</strong>：</p>
+<p><strong>中期目标：</strong>初步上线后观察，如果各基地对设备离线检查这个功能有需求（例如石家庄基地，当前配电系统的上位机没有这个功能），可能会在IoT系统中，根据规则给一些数据点打上异常标签（如：一直有数据的某块电表，在某2个小时内数据为0，后续又恢复，或：一直有数据的某设备，突然所有数据点都变成了0，且持续时间超过30min），定期向用户推送异常数据点&#x2F;异常设备列表，用户可以检查后标记（异常&#x2F;异常已修复&#x2F;无异常等）；</p>
+<p><strong>终极目标：</strong>协调各系统的供应商，增加向IoT传输的数据点位，覆盖所有重点设备&#x2F;仪表，此方案工作量较大，可能会有成本投入，需要看各基地对此功能的的需求程度；</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/" rel="prev" title="石家庄电表的梳理流程">
+                  <i class="fa fa-angle-left"></i> 石家庄电表的梳理流程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/10/15/%E5%85%B3%E4%BA%8Evlookup%E5%87%BD%E6%95%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="next" title="关于vlookup函数的奇怪问题汇总和解决方法">
+                  关于vlookup函数的奇怪问题汇总和解决方法 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马卓然@JA_Solar</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">9k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">33 分钟</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

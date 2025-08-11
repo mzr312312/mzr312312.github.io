@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/%E8%8B%B9%E6%9E%9C%E5%A4%A7%E5%9B%BE-4.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/%E4%B8%AD%E5%9B%BE32-32-4.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/%E5%B0%8F%E5%9B%BE16-16-4.png">
+  <link rel="mask-icon" href="/images/safari-logo-4.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mzr312312.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="各基地电表数量很多，点表命名杂乱无章，电表的梳理比常规的梳理过程增加了一些步骤。梳理的目标是：形成数据点清单，根据设备命名规则和数据点命名规则，为原始数据点表中的每一个采集点名称，匹配一个数据点编码，用于后续的IoT采集和数据库存储、用户查询">
+<meta property="og:type" content="article">
+<meta property="og:title" content="石家庄电表的梳理流程">
+<meta property="og:url" content="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="卓然的Blog">
+<meta property="og:description" content="各基地电表数量很多，点表命名杂乱无章，电表的梳理比常规的梳理过程增加了一些步骤。梳理的目标是：形成数据点清单，根据设备命名规则和数据点命名规则，为原始数据点表中的每一个采集点名称，匹配一个数据点编码，用于后续的IoT采集和数据库存储、用户查询">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012141543095.png">
+<meta property="og:image" content="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E5%B1%82%E7%BA%A7%E5%9B%BE.png">
+<meta property="og:image" content="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012145124943.png">
+<meta property="article:published_time" content="2024-10-12T06:06:33.000Z">
+<meta property="article:modified_time" content="2025-08-08T02:23:33.984Z">
+<meta property="article:author" content="马卓然">
+<meta property="article:tag" content="原始点表处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012141543095.png">
+
+
+<link rel="canonical" href="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/","path":"2024/10/12/石家庄电表的梳理流程/","title":"石家庄电表的梳理流程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>石家庄电表的梳理流程 | 卓然的Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">卓然的Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">多少事，从来急，天地转，光阴迫。一万年太久，只争朝夕！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-业务文档"><a href="/categories/ems/" rel="section"><i class="fa fa-cog fa-fw"></i>业务文档</a></li><li class="menu-item menu-item-数据处理"><a href="/categories/data/" rel="section"><i class="fa fa-magnifying-glass-chart fa-fw"></i>数据处理</a></li><li class="menu-item menu-item-读书笔记"><a href="/categories/book/" rel="section"><i class="fa fa-book fa-fw"></i>读书笔记</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">1.提前准备的资料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">1.1 IoT给的数据点表（低压）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">1.2 我的设备编码清单（低压）：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">1.3 石家庄基地电表梳理清单（在设备编码清单的sheet页中）：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">2.梳理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">2.1 对原始点表的梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.1.1常规梳理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text">2.1.2 异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text">2.1.2.1 对采集点特征字段的异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text">2.1.2.2 对设备名称的异常处理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">2.2 基于现有电表编码清单的比对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">2.3 更新现有电表编码清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text">2.4 基于标准流程（参考链接：），继续梳理直到最终完成</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="马卓然"
+      src="/images/%E5%A4%B4%E5%83%8F1.png">
+  <p class="site-author-name" itemprop="name">马卓然</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mzr312312" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mzr312312" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:732545535@qq.com" title="E-Mail → mailto:732545535@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mzr312312.github.io/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%A4%B4%E5%83%8F1.png">
+      <meta itemprop="name" content="马卓然">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卓然的Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="石家庄电表的梳理流程 | 卓然的Blog">
+      <meta itemprop="description" content="各基地电表数量很多，点表命名杂乱无章，电表的梳理比常规的梳理过程增加了一些步骤。梳理的目标是：形成数据点清单，根据设备命名规则和数据点命名规则，为原始数据点表中的每一个采集点名称，匹配一个数据点编码，用于后续的IoT采集和数据库存储、用户查询">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          石家庄电表的梳理流程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-12 14:06:33" itemprop="dateCreated datePublished" datetime="2024-10-12T14:06:33+08:00">2024-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-08-08 10:23:33" itemprop="dateModified" datetime="2025-08-08T10:23:33+08:00">2025-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/data/" itemprop="url" rel="index"><span itemprop="name">data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">各基地电表数量很多，点表命名杂乱无章，电表的梳理比常规的梳理过程增加了一些步骤。梳理的目标是：形成数据点清单，根据设备命名规则和数据点命名规则，为原始数据点表中的每一个采集点名称，匹配一个数据点编码，用于后续的IoT采集和数据库存储、用户查询</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1><span id="1提前准备的资料">1.提前准备的资料</span></h1><h2><span id="11-iot给的数据点表低压">1.1 IoT给的数据点表（低压）</span></h2><ol>
+<li>这个是从供应商（柯林）的上位机系统导出的，我需要的内容大概如下图：<ol>
+<li><style>.ejvzhlmhxjuw{zoom:67%;}</style><img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012141543095.png" class="ejvzhlmhxjuw" alt="image-20241012141543095"></li>
+<li>采集点名称：我最终生成的数据点清单，要把<code>数据点编码</code>和上图的<code>采集点名称</code>一一对应；</li>
+</ol>
+</li>
+</ol>
+<h2><span id="12-我的设备编码清单低压">1.2 我的设备编码清单（低压）：</span></h2><ol>
+<li>来源：和石家庄基地多轮沟通后，列出了所有电表大约3000块。根据基地→车间→系统耗电量的统计，列出了低压系统的1348块表（包含缴费&#x2F;总进线电表-1级、变压器表-2级、配电柜主电表-3级和抽屉柜电表-4级等）；</li>
+<li>电表层级梳理如图所示：<style>.ufyowmpckgxo{}</style><img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E5%B1%82%E7%BA%A7%E5%9B%BE.png" class="ufyowmpckgxo" alt="石家庄电表层级图"></li>
+<li>1348这个数量应该是少于IoT数据点表里的设备数量的，需要梳理到底少了哪些。当前看来，应该是漏了一些类似上图中11304，11305这种不带有功电度的电表（但是有电流，电压等数据，还是要采集的），另外就是漏了一些母线插接箱的电表，基地没有梳理好，暂时也不需要采集；</li>
+</ol>
+<h3><span id="13-石家庄基地电表梳理清单在设备编码清单的sheet页中">1.3 石家庄基地电表梳理清单（在设备编码清单的sheet页中）：</span></h3><ol>
+<li>清单内容如图所示：<img src="/2024/10/12/%E7%9F%B3%E5%AE%B6%E5%BA%84%E7%94%B5%E8%A1%A8%E7%9A%84%E6%A2%B3%E7%90%86%E6%B5%81%E7%A8%8B/image-20241012145124943.png" class title="image-20241012145124943"></li>
+<li>同一块电表有好几个名字，例如：图纸名“11LW5”，上位机界面显示名：“21104”，负载名：“插片清洗机02”和设备编码：“SJ-A-23-3-Edc-0005”；不同资料中名称不一样，非常混乱；</li>
+<li>利用梳理清单可以把这些名称映射到一起，供后续统一伟设备编码和数据点编码；</li>
+</ol>
+<h1><span id="2梳理流程">2.梳理流程</span></h1><p>基于已有资料进行梳理，目标是形成数据点清单，根据设备命名规则和数据点命名规则，为原始数据点表中的每一个采集点名称，匹配一个数据点编码，用于后续的IoT采集和数据库存储、用户查询</p>
+<h2><span id="21-对原始点表的梳理">2.1 对原始点表的梳理</span></h2><h3><span id="211常规梳理">2.1.1常规梳理</span></h3><ol>
+<li>将”采集点“sheet页复制，后续所有操作在复制的sheet页上进行；</li>
+<li>将”采集点名称“列拆成2列：设备名称+采集点特征字段；需要注意的是，设备名称&amp;采集点特征字段可以不等于采集点名称，因为后续是靠vlookup映射来的，不需要名称一致；</li>
+</ol>
+<h3><span id="212-异常处理">2.1.2 异常处理</span></h3><p>因为原始点表非常混乱，分列后的设备名称和采集点特征字段存在各种错误，需要对错误进行纠正；</p>
+<h4><span id="2121-对采集点特征字段的异常处理">2.1.2.1 对采集点特征字段的异常处理</span></h4><p>例如，电流，I1，相电流I1，相（线电流）I1，相电流I1这些描述，对于数据点编码后缀来说，都代表同一种东西（电流）。使用<code>12-1 利用标准字典进行字段匹配(莱文斯坦距离).py</code>脚本进行处理，将不同表述归一化，然后利用已有的数据字典进行数据点编码后缀映射即可；</p>
+<h4><span id="2122-对设备名称的异常处理">2.1.2.2 对设备名称的异常处理</span></h4><p>和采集点特征字段不同的是，设备名称没有标准字典，但python脚本是将不规则的名称映射到设备名称上，可能要手动处理，例如：6_161AH5和161AH5其实代表的是同一块电表，但是在供应商编写上位机系统时，前者的“6_”代表6号配电室，后者忘了添加了</p>
+<p>正在编写脚本，争取可以把这30000多行数据一次性归类</p>
+<h2><span id="22-基于现有电表编码清单的比对">2.2 基于现有电表编码清单的比对</span></h2><p>在2.1节中对现有点表进行了梳理，确定了所有“设备名称”，如2.1.2.1节中提到的，这个设备名称很杂乱，需要借助&#x3D;&#x3D;石家庄基地电表梳理清单&#x3D;&#x3D;来进行归一化，只使用一套“曾用名”，然后将其他名称映射起来；</p>
+<h2><span id="23-更新现有电表编码清单">2.3 更新现有电表编码清单</span></h2><p>在2.2完成后，对比现有电表编码清单，补足缺少的部分。</p>
+<h2><span id="24-基于标准流程参考链接继续梳理直到最终完成">2.4 基于标准流程（参考链接：），继续梳理直到最终完成</span></h2><p>参考文章：（链接）</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%A7%8B%E7%82%B9%E8%A1%A8%E5%A4%84%E7%90%86/" rel="tag"># 原始点表处理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/10/14/IoT%E6%95%B0%E9%87%87%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BE%E5%A4%87%E7%A6%BB%E7%BA%BF%E7%9A%84%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98/" rel="next" title="IoT数采过程中设备离线的标记问题">
+                  IoT数采过程中设备离线的标记问题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马卓然@JA_Solar</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">9k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">33 分钟</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
